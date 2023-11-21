@@ -1,0 +1,42 @@
+version: '3.9'
+services:
+  redis:
+    container_name: MajesticTradeRedis
+    image: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis:/data
+  postgres:
+    container_name: MajesticTradePostgresQL
+    image: postgres:14.5-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: ${DATABASE_USERNAME}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME}
+    ports:
+      - '5432:5432'
+    volumes:
+      - auth:/var/lib/postgresql/data_
+  pgadmin:
+    container_name: MajesticTradePostgresAdmin
+    image: dpage/pgadmin4:latest
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+    volumes:
+      - ./pgadmin:/var/lib/pgadmin
+    ports:
+      - "5050:80"
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 1G
+volumes:
+  auth:
+  redis:
+    driver: local

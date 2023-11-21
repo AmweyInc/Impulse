@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package Authorization;
+
+service AuthorizationService {
+  rpc SignUp(RegisterDto) returns (UserAuthDto) {}
+  rpc SignIn(LoginDto) returns (AuthToken) {}
+  rpc Refresh(AuthToken) returns (AuthToken) {}
+}
+
+message RegisterDto {
+  string email = 1;
+  string password = 2;
+  string name = 3;
+}
+
+message LoginDto {
+  string email = 1;
+  string password = 2;
+}
+
+message UserAuthDto {
+  bool accountCreate = 1;
+}
+
+message AuthToken {
+  string token = 1;
+}

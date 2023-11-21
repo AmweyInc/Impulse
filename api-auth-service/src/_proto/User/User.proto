@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package User;
+
+service UserService {
+  rpc createUser(UserSignUpRequestDto) returns (UserSignUpResponseDto) {}
+  rpc getUser(UserGetRequestDto) returns (UserResponseDto) {}
+  rpc existUser(UserGetRequestDto) returns (UserExistResponse) {}
+  rpc refresh(UserUpdateRequestDto) returns (UserUpdateResponseDto) {}
+}
+
+message UserGetRequestDto {
+  string email = 1;
+  string name = 2;
+}
+
+message UserExistResponse {
+  bool exist = 1;
+}
+
+message UserResponseDto {
+  int32 id = 1;
+  string email = 2;
+  string password = 3;
+}
+
+message UserSignUpRequestDto {
+  string email = 1;
+  string password = 2;
+  string name = 3;
+}
+
+message UserSignUpResponseDto {
+  bool create = 1;
+}
+
+message UserUpdateRequestDto {
+  int32 id = 1;
+}
+
+message UserUpdateResponseDto {
+  bool successful = 1;
+}
